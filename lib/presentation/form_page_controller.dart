@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fteam_classes_project/utils/text_mask.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class FormPagecontroller extends ChangeNotifier {
+class FormPagecontroller {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
-  var isLight = true;
 
-  ThemeMode _themeMode = ThemeMode.system;
-  ThemeMode get themeMode => _themeMode;
-  
+ final _themeMode = ValueNotifier<bool>(true);
+  ValueNotifier<bool> get themeMode => _themeMode;
+
 
   final phoneMask = MaskFormatter(
     formatter: MaskTextInputFormatter(mask: "(##) #####-####"),
@@ -18,20 +17,11 @@ class FormPagecontroller extends ChangeNotifier {
     textInputType: const TextInputType.numberWithOptions(),
   );
 
-  void setTheme(bool isLight) {
-    if (isLight) {
-      isLight = false;
+  void setTheme() {
+   
+      _themeMode.value = !_themeMode.value;
 
-      _themeMode = ThemeMode.dark;
-      notifyListeners();
 
-    } else {
-      isLight = true;
-
-      _themeMode = ThemeMode.light;
-      notifyListeners();
-
-    }
   }
 
   String? validateName(String? value) {
